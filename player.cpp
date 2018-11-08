@@ -69,11 +69,11 @@ void Player::bookCards(Card c1, Card c2)
 //Outputs/Results: Returns True if Cards Share Rank Values and Populates Card variables with Card pair
 bool Player::checkHandForBook(Card &c1, Card &c2)
 {
-    vector<Card>::iterator iterator1 ;
+    vector<Card>::iterator iterator1;
     vector<Card>::iterator iterator2;
-    for (iterator1 == this->myHand.begin(); iterator1 != this->myHand.end(); iterator1++)
+    for (iterator1 = this->myHand.begin(); iterator1 != this->myHand.end(); iterator1++)
     {
-        for (iterator2 == (iterator1 + 1); iterator2 != this->myHand.end(); iterator2++)
+        for (iterator2 = (iterator1 + 1); iterator2 != this->myHand.end(); iterator2++)
         {
             if (iterator1->getRank() == iterator2->getRank())
             {
@@ -91,10 +91,10 @@ bool Player::checkHandForBook(Card &c1, Card &c2)
 //Outputs/Results: Returns True if Cards Share Rank Values
 bool Player::rankInHand(Card c) const
 {
-    vector<Card>::iterator iterator;
-    for (iterator == this->myHand.begin(); iterator != this->myHand.end(); iterator++)
+    vector<Card>::const_iterator iter;
+    for (iter = this->myHand.begin(); iter != this->myHand.end(); iter++)
     {
-        if ((iterator->getRank()) == (c.getRank()))
+        if ((iter->getRank()) == (c.getRank()))
         {
             return true;
         }
@@ -104,7 +104,12 @@ bool Player::rankInHand(Card c) const
 
     //uses some strategy to choose one card from the player's
     //hand so they can say "Do you have a 4?"
-    Card chooseCardFromHand() const;
+    Card Player::chooseCardFromHand() const
+    {
+        srand((unsigned) time(0));
+        int randomIndex = (rand() & this->getHandSize());
+        return this->myHand[randomIndex];
+    }
     //Does the player have the card c in her hand?
 
 //Checks if Player has Card Object in their Hand
@@ -112,30 +117,71 @@ bool Player::rankInHand(Card c) const
 //Outputs/Results: Returns True if Card Object matches Card in Hand Vector
 bool Player::cardInHand(Card c) const
 {
-    vector<Card>::iterator iterator;
-    for (iterator == this->myHand.begin(); iterator != this->myHand.end(); iterator++)
+    vector<Card>::const_iterator iter;
+    for (iter = this->myHand.begin(); iter != this->myHand.end(); iter++)
     {
-        if ((iterator->getRank() == c.getRank()) && (iterator->sameSuitAs(c)))
+        if ((*iter) == c)
         {
             return true;
         }
     }
     return false;
 }
-    //Remove the card c from the hand and return it to the caller
-    Card removeCardFromHand(Card c);
 
-    string showHand() const;
-    string showBooks() const;
+//Removes Card from Player's Hand
+//Inputs: Card Object
+//Outputs/Results: Returns Card Removed from Hand Vector of Player
+Card Player::removeCardFromHand(Card c)
+{
+    vector<Card>::iterator iter;
+    Card removedCard;
+    for (iter = this->myHand.begin(); iter != this->myHand.end(); iter++)
+    {
+        if ((*iter) == c)
+        {
+            removedCard = (*iter);
+            this->myHand.erase(iter);
+        }
+    }
+    return removedCard;
+}
+
+//Shows Player's Hand
+//Inputs: None
+//Outputs/Results: Returns Card Objects (string) in Player's Hand Vector
+string Player::showHand() const
+{
+    string s = "Hand: ";
+    vector<Card>::const_iterator iter;
+    for (iter = this->myHand.begin(); iter != this->myHand.end(); iter++)
+    {
+        s += ((*iter).toString() + ", ");
+    }
+    return s;
+}
+
+//Shows Player's Books
+//Inputs: None
+//Outputs/Results: Returns Card Objects (string) in Player's Books Vector
+string Player::showBooks() const
+{
+    string s = "Books: ";
+    vector<Card>::const_iterator iter;
+    for (iter = this->myBook.begin(); iter != this->myBook.end(); iter++)
+    {
+        s += ((*iter).toString() + ", ");
+    }
+    return s;
+}
 
 //This function checks the size of a Player's Hand
 //Inputs: None
 //Outputs/Results: Returns the size (int) of the Hand Vector of a Player
 int Player::getHandSize() const
 {
-    vector<Card>::iterator iterator;
+    vector<Card>::const_iterator iter;
     int size = 0;
-    for (iterator == this->myHand.begin(); iterator != this->myHand.end(); iterator++)
+    for (iter = this->myHand.begin(); iter != this->myHand.end(); iter++)
     {
         size++;
     }
@@ -147,9 +193,9 @@ int Player::getHandSize() const
 //Outputs/Results: Returns the size (int) of the Book Vector of a Player
 int Player::getBookSize() const
 {
-    vector<Card>::iterator iterator;
+    vector<Card>::const_iterator iter;
     int size = 0;
-    for (iterator == this->myBook.begin(); iterator != this->myBook.end(); iterator++)
+    for (iter = this->myBook.begin(); iter != this->myBook.end(); iter++)
     {
         size++;
     }
@@ -164,9 +210,9 @@ bool Player::checkHandForPair(Card &c1, Card &c2)
 {
     vector<Card>::iterator iterator1 ;
     vector<Card>::iterator iterator2;
-    for (iterator1 == this->myHand.begin(); iterator1 != this->myHand.end(); iterator1++)
+    for (iterator1 = this->myHand.begin(); iterator1 != this->myHand.end(); iterator1++)
     {
-        for (iterator2 == (iterator1 + 1); iterator2 != this->myHand.end(); iterator2++)
+        for (iterator2 = (iterator1 + 1); iterator2 != this->myHand.end(); iterator2++)
         {
             if (iterator1->getRank() == iterator2->getRank())
             {
@@ -184,13 +230,31 @@ bool Player::checkHandForPair(Card &c1, Card &c2)
 //Outputs/Results: Returns True if Cards Share Rank Values
 bool Player::sameRankInHand(Card c) const
 {
-    vector<Card>::iterator iterator;
-    for (iterator == this->myHand.begin(); iterator != this->myHand.end(); iterator++)
+    vector<Card>::const_iterator iter;
+    for (iter = this->myHand.begin(); iter != this->myHand.end(); iter++)
     {
-        if ((iterator->getRank()) == (c.getRank()))
+        if ((iter->getRank()) == (c.getRank()))
         {
             return true;
         }
     }
     return false;
+}
+
+//Destructor
+Player::~Player()
+{
+    vector<Card>::const_iterator iter;
+    for (iter = this->myHand.begin(); iter != this->myHand.end(); iter++)
+    {
+        delete &(*iter);
+    }
+    this->myHand.clear();
+    delete &(this->myHand);
+    for (iter = this->myBook.begin(); iter != this->myBook.end(); iter++)
+    {
+        delete &(*iter);
+    }
+    this->myBook.clear();
+    delete &(this->myBook);
 }

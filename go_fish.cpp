@@ -28,7 +28,7 @@ void dealHand(Deck &d, Player &p, int numCards);
 
 int main()
 {
-    int numCards = 5;
+    int numCards = 7;
 
     Player p1("Joe");
     Player p2("Jane");

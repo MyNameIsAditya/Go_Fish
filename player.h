@@ -25,6 +25,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <ctime>
+#include <cstdlib>
 
 #include "card.h"
 
@@ -71,6 +73,7 @@ public:
     //e.g. will return true if the player has a 7d and the parameter is 7c
     bool sameRankInHand(Card c) const;
 
+    ~Player();
 
 private:
     vector <Card> myHand;
