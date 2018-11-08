@@ -30,8 +30,8 @@ int main()
 {
     int numCards = 7;
 
-    Player p1("Joe");
-    Player p2("Jane");
+    Player p1("Kedar");
+    Player p2("Aditya");
 
     Deck d;  //create a deck of cards
     d.shuffle();
@@ -39,8 +39,8 @@ int main()
     dealHand(d, p1, numCards);
     dealHand(d, p2, numCards);
 
-    cout << p1.getName() <<" has : " << p1.showHand() << endl;
-    cout << p2.getName() <<" has : " << p2.showHand() << endl;
+    cout << p1.getName() <<"'s : " << p1.showHand() << endl;
+    cout << p2.getName() <<"'s : " << p2.showHand() << endl;
 
     return EXIT_SUCCESS;
 }
@@ -48,5 +48,17 @@ int main()
 void dealHand(Deck &d, Player &p, int numCards)
 {
     for (int i=0; i < numCards; i++)
-        p.addCard(d.dealCard());
+    {
+        Card temp = d.dealCard();
+        if(temp.getRank()!=-1)
+        {
+            p.addCard(temp);
+        }
+        else
+        {
+            cout << "ERROR- INSUFFICIENT AMOUNT OF CARDS IN DECK, PLEASE REDUCE NUMBER OF CARDS PER PLAYER TO <= 26";
+            return;
+        }
+
+    }
 }
