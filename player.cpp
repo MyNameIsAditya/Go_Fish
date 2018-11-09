@@ -255,7 +255,7 @@ Player::~Player()
     delete &(this->myHand);
     for (iter = this->myBook.begin(); iter != this->myBook.end(); iter++)
     {
-        delete &(*iter);
+        //delete &(*iter);
     }
     this->myBook.clear();
     delete &(this->myBook);
