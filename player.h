@@ -47,7 +47,7 @@ public:
     //OPTIONAL
     // comment out if you decide to not use it
     //Does the player have a card with the same rank as c in her hand?
-    bool rankInHand(Card c) const;
+    bool rankInHand(Card c, Card &temp);
     //uses some strategy to choose one card from the player's
     //hand so they can say "Do you have a 4?"
     Card chooseCardFromHand() const;
