@@ -73,8 +73,9 @@ Card Deck::dealCard()
 {
     if (this->size() > 0)
     {
+        Card dealtCard = myCards[myIndex];
         this->myIndex++;
-        return myCards[myIndex];
+        return dealtCard;
     }
     else
     {

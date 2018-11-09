@@ -142,6 +142,7 @@ Card Player::removeCardFromHand(Card c)
         {
             removedCard = (*iter);
             this->myHand.erase(iter);
+            return removedCard;
         }
     }
     return removedCard;

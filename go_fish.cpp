@@ -50,7 +50,7 @@ int main()
 
     bookCardsAtStart(p1, p2);                                       //Books pairs in players' hands at the beginning of the game
 
-    while (d.size() != 0)
+    while ((d.size() != 0) || (p1.getHandSize() != 0) || (p2.getHandSize() != 0))
     {
         if (whoseTurn == PLAYER_1)
         {
@@ -99,17 +99,17 @@ void completeTurn(Deck &d, Player &primary, Player &secondary)
     cout << primary.getName() << "'s " << primary.showBooks() << endl;                              //Show primary player's book
     cout << primary.getName() <<"'s Number of Books:" << primary.getBookSize() << endl;             //Show primary player's number of books
     cout << secondary.getName() <<"'s " << secondary.showHand() << endl;                            //Show secondary player's hand
-    cout << secondary.getName() << "'s " << secondary.showBooks() << endl;                          //Show seondary player's books
+    cout << secondary.getName() << "'s " << secondary.showBooks() << endl;                          //Show secondary player's books
     cout << secondary.getName() <<"'s Number of Books:" << secondary.getBookSize() << endl;         //Show secondary player's number of books
     cout << "--------------------------------------------------------" << endl;
 
     Card chosenCard = primary.chooseCardFromHand();                                                 //Primary player chooses card
-    cout << primary.getName() << " - Do you have a " << chosenCard.getRank() << "?" << endl;
+    cout << primary.getName() << " - Do you have a " << chosenCard.toString().substr(0, 1) << "?" << endl;
     Card temp;
     if (secondary.rankInHand(chosenCard, temp))                                                     //If guess is correct
     {
-        cout << secondary.getName() << " - Yes! I have a " << chosenCard.getRank() << "." << endl;
-        cout << primary.getName() << " books the " << chosenCard.getRank() << "." << endl;
+        cout << secondary.getName() << " - Yes! I have a " << chosenCard.toString().substr(0, 1) << "." << endl;
+        cout << primary.getName() << " books the " << chosenCard.toString().substr(0, 1) << "." << endl;
         primary.bookCards(chosenCard, temp);                                            //Books cards
         primary.removeCardFromHand(chosenCard);                                         //Removes Card from primary player's hand
         secondary.removeCardFromHand(temp);                                             //Removes Card from secondary player's hand
@@ -120,9 +120,9 @@ void completeTurn(Deck &d, Player &primary, Player &secondary)
         temp = d.dealCard();
         if (temp.getRank() != -1)
         {
-            cout << primary.getName() << "draws " << temp.toString() << "." << endl;
+            cout << primary.getName() << " draws " << temp.toString() << "." << endl;
             Card foundPairFromDraw;
-            if (primary.rankInHand(temp, foundPairFromDraw))                            //Card drawn has a pair and is booked
+            if (primary.rankInHand(temp, foundPairFromDraw))                                        //Card drawn has a pair and is booked
             {
                 primary.bookCards(temp,foundPairFromDraw);
                 primary.removeCardFromHand(foundPairFromDraw);
@@ -138,7 +138,7 @@ void completeTurn(Deck &d, Player &primary, Player &secondary)
         }
     }
 
-
+    cout << endl;
 }
 
 //Checks for Books in Player's hand
@@ -171,6 +171,7 @@ void endGame(Player &p1, Player &p2)
     cout << p1.showBooks() << endl;
     cout << p2.getName() << " has a Book Size of " << p2.getBookSize() << endl;
     cout << p2.showBooks() << endl;
+    cout << "******************************************" << endl;
 
     if (p1.getBookSize() > p2.getBookSize())
     {
@@ -184,4 +185,6 @@ void endGame(Player &p1, Player &p2)
     {
         cout << "The Game is a Tie!" << endl;
     }
+
+    cout << "******************************************" << endl;
 }
