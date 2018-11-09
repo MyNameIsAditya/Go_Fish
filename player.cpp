@@ -136,12 +136,13 @@ Card Player::removeCardFromHand(Card c)
 {
     vector<Card>::iterator iter;
     Card removedCard;
-    for (iter = this->myHand.begin(); iter != this->myHand.end(); iter++)
+    for (iter = this->myHand.begin(); iter != this->myHand.end(); ++iter)
     {
+        //cout << "DEBUG CORE DUMP: " << (*iter).toString() << " Looking for " << c.toString() << endl;
         if ((*iter) == c)
         {
             removedCard = (*iter);
-            this->myHand.erase(iter);
+            iter = this->myHand.erase(iter);
             return removedCard;
         }
     }
@@ -157,7 +158,7 @@ string Player::showHand() const
     vector<Card>::const_iterator iter;
     for (iter = this->myHand.begin(); iter != this->myHand.end(); iter++)
     {
-        s += ((*iter).toString() + ", ");
+        s += ((*iter).toString() + "; ");
     }
     return s;
 }
@@ -255,7 +256,7 @@ Player::~Player()
     delete &(this->myHand);
     for (iter = this->myBook.begin(); iter != this->myBook.end(); iter++)
     {
-        //delete &(*iter);
+        delete &(*iter);
     }
     this->myBook.clear();
     delete &(this->myBook);*/

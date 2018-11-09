@@ -73,9 +73,9 @@ Card Deck::dealCard()
 {
     if (this->size() > 0)
     {
-        Card dealtCard = myCards[myIndex];
+        Card returned = myCards[myIndex];
         (this->myIndex)++;
-        return dealtCard;
+        return returned;
     }
     else
     {
@@ -91,7 +91,20 @@ int Deck::size() const
     return (SIZE - this->myIndex);
 }
 
+string Deck::toString()
+{
+    string ret = "DECK: ";
+    for(int i = myIndex; i < SIZE; i++)
+    {
+        ret += myCards[i].toString() + " , ";
+    }
+    return ret;
+}
+
 //Destructor
 Deck::~Deck()
 {
 }
+
+
+
