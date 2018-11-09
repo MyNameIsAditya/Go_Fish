@@ -88,14 +88,15 @@ bool Player::checkHandForBook(Card &c1, Card &c2)
 
 //Checks if there is a card with the same Rank as the inputted Card Object
 //Inputs: Card Object
-//Outputs/Results: Returns True if Cards Share Rank Values
-bool Player::rankInHand(Card c) const
+//Outputs/Results: Returns True if Cards Share Rank Values and Populates Card variable with found card
+bool Player::rankInHand(Card c, Card &temp)
 {
     vector<Card>::const_iterator iter;
     for (iter = this->myHand.begin(); iter != this->myHand.end(); iter++)
     {
         if ((iter->getRank()) == (c.getRank()))
         {
+            temp = (*iter);
             return true;
         }
     }
