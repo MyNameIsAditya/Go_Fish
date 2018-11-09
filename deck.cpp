@@ -27,7 +27,7 @@
 // The idea is that after shuffling, calling dealCard() 52 times
 // returns each card in the deck after shuffling.
 
-#include "Deck.h"
+#include "deck.h"
 
 //Default Constructor
 //Inputs: None
@@ -73,8 +73,9 @@ Card Deck::dealCard()
 {
     if (this->size() > 0)
     {
-        this->myIndex++;
-        return myCards[myIndex];
+        Card dealtCard = myCards[myIndex];
+        (this->myIndex)++;
+        return dealtCard;
     }
     else
     {

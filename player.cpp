@@ -108,7 +108,7 @@ bool Player::rankInHand(Card c, Card &temp)
     Card Player::chooseCardFromHand() const
     {
         srand((unsigned) time(0));
-        int randomIndex = (rand() & this->getHandSize());
+        int randomIndex = (rand() % this->getHandSize());
         return this->myHand[randomIndex];
     }
     //Does the player have the card c in her hand?
@@ -142,6 +142,7 @@ Card Player::removeCardFromHand(Card c)
         {
             removedCard = (*iter);
             this->myHand.erase(iter);
+            return removedCard;
         }
     }
     return removedCard;
@@ -170,7 +171,7 @@ string Player::showBooks() const
     vector<Card>::const_iterator iter;
     for (iter = this->myBook.begin(); iter != this->myBook.end(); iter++)
     {
-        s += ((*iter).toString() + ", ");
+        s += ((*iter).toString() + "; ");
     }
     return s;
 }
@@ -200,7 +201,7 @@ int Player::getBookSize() const
     {
         size++;
     }
-    return size;
+    return size/2;
 }
 
 //This function will check a players hand for a pair.
@@ -245,7 +246,7 @@ bool Player::sameRankInHand(Card c) const
 //Destructor
 Player::~Player()
 {
-    vector<Card>::const_iterator iter;
+    /*vector<Card>::const_iterator iter;
     for (iter = this->myHand.begin(); iter != this->myHand.end(); iter++)
     {
         delete &(*iter);
@@ -254,8 +255,8 @@ Player::~Player()
     delete &(this->myHand);
     for (iter = this->myBook.begin(); iter != this->myBook.end(); iter++)
     {
-        delete &(*iter);
+        //delete &(*iter);
     }
     this->myBook.clear();
-    delete &(this->myBook);
+    delete &(this->myBook);*/
 }
