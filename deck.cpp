@@ -71,10 +71,11 @@ void Deck::shuffle()
 //Outputs/Results: Returns a Card Object; Fails After All 52 card Objects Are Dealt
 Card Deck::dealCard()
 {
-    if (this->size() > 0)
+    if (this->size() >= 0)
     {
-        this->myIndex++;
-        return myCards[myIndex];
+        Card returned = myCards[myIndex];
+        (this->myIndex)++;
+        return returned;
     }
     else
     {
@@ -90,7 +91,20 @@ int Deck::size() const
     return (SIZE - this->myIndex);
 }
 
+string Deck::toString()
+{
+    string ret = "DECK: ";
+    for(int i = myIndex; i < SIZE; i++)
+    {
+        ret += myCards[i].toString() + " , ";
+    }
+    return ret;
+}
+
 //Destructor
 Deck::~Deck()
 {
 }
+
+
+

@@ -41,17 +41,33 @@ int main()
     int whoseTurn;                                                  //Keeps track of whose turn it is
 
     Deck d;                                                         //Creates a deck of cards
+    cout << "PRINT DECK::: " << d.toString() << endl;
     d.shuffle();
+    cout << "PRINT DECK::: " << d.toString() << endl;
 
     dealHand(d, p1, NUM_CARDS);
     dealHand(d, p2, NUM_CARDS);
 
     whoseTurn = PLAYER_1;                                           //Player 1 goes first
 
+    //INITIAL STATE
+    cout << "********************INITIAL STATE*****************" << endl;
+    cout << p1.getName() <<"'s " << p1.showHand() << endl;                                //Show primary player's hand
+    cout << p1.getName() << "'s " << p1.showBooks() << endl;                              //Show primary player's book
+    cout << p1.getName() <<"'s Number of Books:" << p1.getBookSize() << endl;             //Show primary player's number of books
+    cout << p2.getName() <<"'s " << p2.showHand() << endl;                            //Show secondary player's hand
+    cout << p2.getName() << "'s " << p2.showBooks() << endl;                          //Show seondary player's books
+    cout << p2.getName() <<"'s Number of Books:" << p2.getBookSize() << endl;         //Show secondary player's number of books
+    cout << "PRINT DECK::: " << d.toString() << endl;
+
+
     bookCardsAtStart(p1, p2);                                       //Books pairs in players' hands at the beginning of the game
 
-    while (d.size() != 0)
+
+
+    while (d.size() != 0 || (p1.getHandSize() != 0 || p2.getHandSize() != 0))
     {
+        cout << "HAND SIZES: " << p1.getHandSize() << " " << p2.getHandSize() << endl;
         if (whoseTurn == PLAYER_1)
         {
             completeTurn(d, p1, p2);
@@ -65,6 +81,8 @@ int main()
     }
 
     endGame(p1, p2);                                                //Checks Win Conditions
+
+    cout << "PRINT DECK::: " << d.toString() << endl;
 
     return EXIT_SUCCESS;
 }
@@ -101,15 +119,19 @@ void completeTurn(Deck &d, Player &primary, Player &secondary)
     cout << secondary.getName() <<"'s " << secondary.showHand() << endl;                            //Show secondary player's hand
     cout << secondary.getName() << "'s " << secondary.showBooks() << endl;                          //Show seondary player's books
     cout << secondary.getName() <<"'s Number of Books:" << secondary.getBookSize() << endl;         //Show secondary player's number of books
+    cout << "PRINT DECK::: " << d.toString() << endl;
     cout << "--------------------------------------------------------" << endl;
 
-    Card chosenCard = primary.chooseCardFromHand();                                                 //Primary player chooses card
-    cout << primary.getName() << " - Do you have a " << chosenCard.getRank() << "?" << endl;
+    Card chosenCard;
+    if(primary.getHandSize() != 0) {
+        chosenCard = primary.chooseCardFromHand();                                                 //Primary player chooses card
+        cout << primary.getName() << " - Do you have a " << chosenCard.toString().substr(0,1) << "?" << endl;
+    }
     Card temp;
-    if (secondary.rankInHand(chosenCard, temp))                                                     //If guess is correct
+    if ((primary.getHandSize() != 0) && secondary.rankInHand(chosenCard, temp))                                                     //If guess is correct
     {
-        cout << secondary.getName() << " - Yes! I have a " << chosenCard.getRank() << "." << endl;
-        cout << primary.getName() << " books the " << chosenCard.getRank() << "." << endl;
+        cout << secondary.getName() << " - Yes! I have a " << chosenCard.toString().substr(0,1) << "." << endl;
+        cout << primary.getName() << " books the " << chosenCard.toString() << "." << endl;
         primary.bookCards(chosenCard, temp);                                            //Books cards
         primary.removeCardFromHand(chosenCard);                                         //Removes Card from primary player's hand
         secondary.removeCardFromHand(temp);                                             //Removes Card from secondary player's hand
@@ -134,7 +156,7 @@ void completeTurn(Deck &d, Player &primary, Player &secondary)
         }
         else
         {
-            cout << "Deck is empty." << endl;
+            cout << "Deck is empty. Size: " << d.size() << endl;
         }
     }
 
@@ -171,6 +193,7 @@ void endGame(Player &p1, Player &p2)
     cout << p1.showBooks() << endl;
     cout << p2.getName() << " has a Book Size of " << p2.getBookSize() << endl;
     cout << p2.showBooks() << endl;
+
 
     if (p1.getBookSize() > p2.getBookSize())
     {
